@@ -19,18 +19,27 @@ A Python tool to extract financial data from TradingView using WebSocket connect
 
 ## Installation
 
-1. To install from an existing requirements file:
+1. Create a virtual environment:
+
+   `python3 -m venv venv`
+
+2. Activate virtual environment:
+   ##### On macOS/Linux:
+   `source venv/bin/activate`
+   ##### On Windows:
+   `venv\Scripts\activate`
+3. To install from an existing requirements file:
 
    `pip3 install -r requirements.txt`
 
-2. To generate a new requirements file (after adding new packages):
+4. To generate a new requirements file (after adding new packages):
 
    `pip3 freeze > requirements.txt`
 
-3. This will scan your imports and generate a clean requirements.txt
+5. This will scan your imports and generate a clean requirements.txt
 
    `pip3 install pipreqs pipreqs ./ --force`
 
-4. Run test_financial_sync.py
+6. Run test_financial_sync.py
 
    `python3 -m tests.test_financial_sync`

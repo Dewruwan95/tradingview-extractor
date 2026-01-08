@@ -50,6 +50,8 @@ def fetch_financial_data(symbol, timeout=15):
         "total_liabilities_fq_h": None, #tradingViewData.totalLiabilitiesHistoryQuarterly
         "total_equity_fy_h": None, #tradingViewData.totalEquityHistoryYearly
         "total_equity_fq_h": None, #tradingViewData.totalEquityHistoryQuarterly
+        "total_debt_fy_h": None, #tradingViewData.totalDebtHistoryYearly
+        "total_debt_fq_h": None, #tradingViewData.totalDebtHistoryQuarterly
         "net_debt_fy_h": None, #tradingViewData.netDebtHistoryYearly
         "net_debt_fq_h": None, #tradingViewData.netDebtHistoryQuarterly
         "fiscal_period_fy_h": None, #tradingViewData.financialYearHistoryYearly
