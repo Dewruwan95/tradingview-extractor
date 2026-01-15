@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
+
 def fetch_financial_data(symbol, timeout=15):
     """
     Fetches financial data for a given TradingView symbol
@@ -20,23 +21,25 @@ def fetch_financial_data(symbol, timeout=15):
         dict: Financial data dictionary
     """
     websocket_url = os.getenv("TRADINGVIEW_WEBSOCKET_URL")
-    
+
     # Generate unique session ID
-    session_id = f"qs_{''.join(random.choices(string.ascii_letters + string.digits, k=12))}"
-    
+    session_id = (
+        f"qs_{''.join(random.choices(string.ascii_letters + string.digits, k=12))}"
+    )
+
     # Build messages with proper formatting
     def create_message(content):
-        return f'~m~{len(content)}~m~{content}'
-    
+        return f"~m~{len(content)}~m~{content}"
+
     messages = [
         create_message('{"m":"set_data_quality","p":["low"]}'),
         create_message('{"m":"set_auth_token","p":["unauthorized_user_token"]}'),
         create_message('{"m":"set_locale","p":["en","US"]}'),
         create_message(f'{{"m":"quote_create_session","p":["{session_id}"]}}'),
         create_message(f'{{"m":"quote_add_symbols","p":["{session_id}","{symbol}"]}}'),
-        create_message(f'{{"m":"quote_fast_symbols","p":["{session_id}","{symbol}"]}}')
+        create_message(f'{{"m":"quote_fast_symbols","p":["{session_id}","{symbol}"]}}'),
     ]
-    
+
     # Data storage
     financial_data = {
         "business_description": None,
@@ -68,47 +71,47 @@ def fetch_financial_data(symbol, timeout=15):
         "dividends_yield_fy_h": None,
         "dividend_payment_date_h": None,
         "dividend_ex_date_h": None,
-        "symbol": symbol
+        "symbol": symbol,
     }
-    
+
     received_data = False
-    
+
     def parse_tradingview_message(raw_message):
         segments = []
-        pattern = re.compile(r'~m~(\d+)~m~')
+        pattern = re.compile(r"~m~(\d+)~m~")
         index = 0
-        
+
         while index < len(raw_message):
             match = pattern.match(raw_message[index:])
             if not match:
                 break
-                
+
             length_str = match.group(1)
             try:
                 length = int(length_str)
             except ValueError:
                 break
-                
+
             header_length = len(f"~m~{length_str}~m~")
             start_pos = index + header_length
             end_pos = start_pos + length
-            
+
             if end_pos > len(raw_message):
                 break
-                
+
             content = raw_message[start_pos:end_pos]
             segments.append(content)
             index = end_pos
-        
+
         return segments
 
     def on_message(ws, message):
         nonlocal received_data
-        if message.startswith('~h~'):
+        if message.startswith("~h~"):
             return
-            
+
         segments = parse_tradingview_message(message)
-        
+
         for segment in segments:
             try:
                 data = json.loads(segment)
@@ -145,18 +148,17 @@ def fetch_financial_data(symbol, timeout=15):
         on_close=on_close,
         header={
             "Origin": "https://www.tradingview.com",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-        }
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        },
     )
-    
+
     # Run WebSocket
     ws.run_forever(
-        sslopt={"cert_reqs": ssl.CERT_NONE},
-        ping_interval=20,
-        ping_timeout=10
+        sslopt={"cert_reqs": ssl.CERT_NONE}, ping_interval=20, ping_timeout=10
     )
-    
+
     return financial_data if received_data else None
+
 
 def print_financial_data(data):
     """
@@ -167,16 +169,16 @@ def print_financial_data(data):
     if not data:
         print("No financial data available")
         return
-        
+
     symbol = data.get("symbol", "Unknown Symbol")
-    print(f"\n{'='*50}")
+    print(f"\n{'=' * 50}")
     print(f"Financial Data for {symbol}")
-    print(f"{'='*50}")
-    
+    print(f"{'=' * 50}")
+
     for key, value in data.items():
         if key == "symbol":
             continue
-            
+
         if value is None:
             print(f"{key.replace('_', ' ').title()}: Not available")
         elif isinstance(value, list):
@@ -189,8 +191,9 @@ def print_financial_data(data):
             print(f"{key.replace('_', ' ').title()}: {value[:100]}...")
         else:
             print(f"{key.replace('_', ' ').title()}: {value}")
-    
-    print(f"{'='*50}\n")
+
+    print(f"{'=' * 50}\n")
+
 
 # Simple test function
 def test_financial_data(symbol):
@@ -200,6 +203,7 @@ def test_financial_data(symbol):
     print(f"Fetching data for {symbol}...")
     data = fetch_financial_data(symbol)
     print_financial_data(data)
+
 
 # Example usage
 if __name__ == "__main__":
