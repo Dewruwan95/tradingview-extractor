@@ -2,7 +2,7 @@ name: Daily Financial Data Sync
 
 on:
   schedule:
-    - cron: "0 3 * * *" # Runs at 3 AM UTC daily
+    - cron: "30 21 * * *" # Runs at 21:30 UTC daily, which is 3:00 AM IST next day
   workflow_dispatch: # Allows manual triggering
 
 jobs:
