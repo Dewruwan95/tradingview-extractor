@@ -140,6 +140,8 @@ def fetch_financial_data(symbol, timeout=15):
         "dividends_yield_fy_h": None,  # tradingViewData.dividendYieldHistoryYearly
         "dividend_payment_date_h": None,  # tradingViewData.dividendPaymentDateHistory
         "dividend_ex_date_h": None,  # tradingViewData.dividendXdDateHistory
+        "dps_common_stock_prim_issue_fy_h": None,  # tradingViewData.dividendPerShareHistoryYearly
+        "dps_common_stock_prim_issue_fq_h": None,  # tradingViewData.dividendPerShareHistoryQuarterly
         "dividend_payout_ratio_fy_h": None,  # tradingViewData.dividendPayoutRatioHistoryYearly
         "dividend_payout_ratio_fq_h": None,  # tradingViewData.dividendPayoutRatioHistoryQuarterly
     }

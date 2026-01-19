@@ -329,10 +329,16 @@ class MongoDBHandler:
                     "dividends_availability"
                 ),
                 "tradingViewData.dividendPerShare": self.safe_get_first_value(
-                    financial_data.get("dividend_amount_h")
+                    financial_data.get("dps_common_stock_prim_issue_fy_h")
                 ),
                 "tradingViewData.dividendPerShareHistory": financial_data.get(
                     "dividend_amount_h"
+                ),
+                "tradingViewData.dividendPerShareHistoryYearly": financial_data.get(
+                    "dps_common_stock_prim_issue_fy_h"
+                ),
+                "tradingViewData.dividendPerShareHistoryQuarterly": financial_data.get(
+                    "dps_common_stock_prim_issue_fq_h"
                 ),
                 "tradingViewData.dividendPayoutRatio": self.safe_get_first_value(
                     financial_data.get("dividend_payout_ratio_fy_h")
