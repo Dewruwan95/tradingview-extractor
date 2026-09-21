@@ -1,6 +1,6 @@
 # TradingView WebSocket Data Extractor
 
-Last Updated : September 14, 2026
+Last Updated : September 21, 2026
 
 A Python tool to extract financial data from TradingView using WebSocket connections.
 
